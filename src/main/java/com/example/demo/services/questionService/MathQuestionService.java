@@ -4,22 +4,20 @@ import com.example.demo.models.Question;
 import com.example.demo.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Random;
 
 @Service
-@Primary
-public class JavaQuestionService implements QuestionService {
+public class MathQuestionService implements QuestionService {
 
     private final QuestionRepository questionRepository;
 
     private final Random rnd = new Random();
 
     @Autowired
-    public JavaQuestionService(@Qualifier("javaQuestionRepository") QuestionRepository questionRepository) {
+    public MathQuestionService(@Qualifier("mathQuestionRepository") QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
     }
 
@@ -42,7 +40,6 @@ public class JavaQuestionService implements QuestionService {
     public Collection<Question> getAll() {
         return questionRepository.getAll();
     }
-
 
     @Override
     public Question getRandomQuestion() {

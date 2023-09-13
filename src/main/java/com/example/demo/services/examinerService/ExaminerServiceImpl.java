@@ -3,6 +3,7 @@ package com.example.demo.services.examinerService;
 import com.example.demo.models.Question;
 import com.example.demo.services.examinerService.exception.BadRequestException;
 import com.example.demo.services.questionService.QuestionService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,23 +16,41 @@ public class ExaminerServiceImpl implements ExaminerService {
 
     private final List<Question> listOfQuestions = new ArrayList<>();
 
-    private final QuestionService questionService;
+    private final Random rnd = new Random();
 
-    public ExaminerServiceImpl(QuestionService questionService) {
-        this.questionService = questionService;
+    private final QuestionService javaQuestionService;
+
+    private final QuestionService mathQuestionService;
+
+    public ExaminerServiceImpl(@Qualifier("javaQuestionService") QuestionService javaQuestionService, @Qualifier("mathQuestionService") QuestionService mathQuestionService) {
+        this.javaQuestionService = javaQuestionService;
+        this.mathQuestionService = mathQuestionService;
     }
 
     @Override
-    public Collection<Question> getQuestions(int amount) {
+    public Collection<Question> getQuestions() {
         listOfQuestions.clear();
         Question rndQuestion;
-        if (amount > questionService.getAll().size()) {
-            System.out.println(amount);
-            System.out.println(questionService.getAll().size());
-            throw new BadRequestException("Указанное количество вопросов превышает количество вопросов в базе");
+
+        int javaRnd = rnd.nextInt(4);
+        int mathRnd = rnd.nextInt(4);
+
+        if(javaRnd == 0 || mathRnd == 0){
+            javaRnd++;
+            mathRnd++;
         }
-        for (int i = 0; i < amount; i++) {
-            rndQuestion = questionService.getRandomQuestion();
+
+        for (int i = 0; i < javaRnd; i++) {
+            rndQuestion = javaQuestionService.getRandomQuestion();
+            if (!listOfQuestions.contains(rndQuestion)) {
+                listOfQuestions.add(rndQuestion);
+            } else {
+                i--;
+            }
+        }
+
+        for (int i = 0; i < mathRnd; i++) {
+            rndQuestion = mathQuestionService.getRandomQuestion();
             if (!listOfQuestions.contains(rndQuestion)) {
                 listOfQuestions.add(rndQuestion);
             } else {
@@ -40,5 +59,4 @@ public class ExaminerServiceImpl implements ExaminerService {
         }
         return listOfQuestions;
     }
-
 }

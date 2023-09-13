@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @RestController
-@RequestMapping(path = "/examination/Java")
+@RequestMapping(path = "/examination")
 public class ExamController {
 
     private final ExaminerService examinerService;
@@ -22,10 +22,10 @@ public class ExamController {
         this.examinerService = examinerService;
     }
 
-    @GetMapping(path = "/getQuestions")
-    public Collection<Question> getQuestions(@RequestParam(value = "amount") int amount) {
+    @GetMapping(path = "/get_questions")
+    public Collection<Question> getQuestions() {
         try {
-            return examinerService.getQuestions(amount);
+            return examinerService.getQuestions();
         } catch (BadRequestException e) {
             Set<Question> err = new HashSet<>();
             Question q = new Question(e.getMessage(), e.getMessage());
