@@ -25,7 +25,7 @@ class JavaQuestionServiceTest {
 
 
         assertEquals(expected, q);
-        assertEquals(qs.getAll().size(), 1 );
+        assertEquals(1, qs.getAll().size() );
 
     }
 
@@ -41,7 +41,7 @@ class JavaQuestionServiceTest {
         qs.remove(test);
 
         assertEquals(test, q);
-        assertEquals(qs.getAll().size(), 1);
+        assertEquals(1, qs.getAll().size());
 
 
 
@@ -58,6 +58,6 @@ class JavaQuestionServiceTest {
         Question qtest = new Question("a", "c");
         test.add(qtest);
 
-        assertEquals(qs.getAll(), test);
+        assertEquals(test, qs.getAll());
     }
 }

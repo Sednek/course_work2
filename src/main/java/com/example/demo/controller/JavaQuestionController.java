@@ -21,11 +21,7 @@ public class JavaQuestionController {
 
     @GetMapping(path = "/add")
     public Question addQuestion(@RequestParam(value = "question") String question, @RequestParam(value = "answer") String answer) {
-        try {
-            return questionService.add(question, answer);
-        } catch (IllegalArgumentException e) {
-            return new Question(e.getMessage(), e.getMessage());
-        }
+        return questionService.add(question, answer);
     }
 
     @GetMapping
@@ -36,10 +32,6 @@ public class JavaQuestionController {
     @GetMapping(path = "/remove")
     public Question removeQuestion(@RequestParam(value = "question") String question, @RequestParam(value = "answer") String answer) {
         Question questionToRemove = new Question(question, answer);
-        try {
-            return questionService.remove(questionToRemove);
-        } catch (IllegalArgumentException e) {
-            return new Question(e.getMessage(), e.getMessage());
-        }
+        return questionService.remove(questionToRemove);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.services.questionService;
 
 import com.example.demo.models.Question;
+import com.example.demo.services.examinerService.exception.onIllegalArgumentException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -20,13 +21,13 @@ public class JavaQuestionService implements QuestionService {
     public Question add(String question, String answer) {
 
         if (question.equals(answer)) {
-            throw new IllegalArgumentException("Вопрос совпадает с ответом");
+            throw new onIllegalArgumentException("Вопрос совпадает с ответом");
         }
 
         Question temp = new Question(question, answer);
 
         if (this.questions.contains(temp)) {
-            throw new IllegalArgumentException("В базе уже существует такой вопрос");
+            throw new onIllegalArgumentException("В базе уже существует такой вопрос");
         }
         this.questions.add(temp);
         return temp;
@@ -41,7 +42,7 @@ public class JavaQuestionService implements QuestionService {
     @Override
     public Question remove(Question question) {
         if (!questions.contains(question)) {
-            throw new IllegalArgumentException("Вопрос отсутствует в базе");
+            throw new onIllegalArgumentException("Вопрос отсутствует в базе");
         }
         this.questions.remove(question);
         return question;
